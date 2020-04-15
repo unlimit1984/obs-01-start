@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     // customIntervalObservable.pipe(map((data: number) => {
     //   return 'Round: ' + (data + 1);
-    // }));
+    // })); //there is no sense, it doesn't modify the current observable, check the proper way below
     // this.firstObsSubscription = customIntervalObservable.subscribe(data => {
     this.firstObsSubscription = customIntervalObservable.pipe(
       filter(data => {
