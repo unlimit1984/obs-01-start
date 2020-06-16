@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
-import {UserService} from '../user.service';
-import {combineLatest, interval, Subject, Subscription, timer} from "rxjs";
-import {take, takeUntil, tap} from "rxjs/operators";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { UserService } from '../user.service';
+import { of, Subject, Subscription } from "rxjs";
+import { reduce, scan } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user',
@@ -13,6 +13,7 @@ export class UserComponent implements OnInit, OnDestroy {
   id: number;
   unsubscribe$ = new Subject<string>();
   subscr: Subscription;
+
   constructor(private route: ActivatedRoute,
               private userService: UserService) {
   }
@@ -78,18 +79,43 @@ export class UserComponent implements OnInit, OnDestroy {
     //   .pipe(takeUntil(timer(5000)))
     //   .subscribe(value => console.log(value));
 
-    const timerOne = timer(0, 3000).pipe(
-      take(3)
-    );
-    const timerTwo = timer(1000, 3000).pipe(
-      take(3)
-    );
-    const timerThree = timer(2000, 3000).pipe(
-      take(3)
-    );
+    // const timerOne = timer(0, 3000).pipe(
+    //   take(3)
+    // );
+    // const timerTwo = timer(1000, 3000).pipe(
+    //   take(3)
+    // );
+    // const timerThree = timer(2000, 3000).pipe(
+    //   take(3)
+    // );
+    // const o = combineLatest(timerOne, timerTwo, timerThree).pipe(tap(x => console.log('tap: '+x)));
+    // this.subscr = o.subscribe(value => console.log(value));
 
-    const o = combineLatest(timerOne, timerTwo, timerThree).pipe(tap(x => console.log('tap: '+x)));
-    this.subscr = o.subscribe(value => console.log(value));
+    // const arr = [1, 2, 3];
+    // console.log(arr.reduce((previousValue, currentValue) => {
+    //   console.log('previousValue=', previousValue, 'currentValue', currentValue);
+    //   return previousValue + currentValue;
+    // }));
+
+    // const o = of(1, 2, 3)
+    //   .pipe(
+    //     reduce((previousValue, currentValue) => {
+    //       console.log('previousValue=', previousValue, 'currentValue', currentValue);
+    //       // получаем сумму всех значений
+    //       return previousValue + currentValue;
+    //     })
+    //   );
+    // this.subscr = o.subscribe(value => console.log(value));
+
+    // const o = of(1, 2, 3)
+    //   .pipe(
+    //     scan((previousValue, currentValue) => {
+    //       console.log('previousValue=', previousValue, 'currentValue', currentValue);
+    //       // получаем сумму всех значений
+    //       return previousValue + currentValue;
+    //     })
+    //   );
+    // this.subscr = o.subscribe(value => console.log(value));
   }
 
   onActivate() {
