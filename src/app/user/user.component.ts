@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { UserService } from '../user.service';
-import { of, Subject, Subscription } from "rxjs";
-import { reduce, scan } from 'rxjs/operators';
+import { of, Subject, Subscription, timer } from "rxjs";
+import { reduce, scan, throttleTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user',
@@ -97,6 +97,41 @@ export class UserComponent implements OnInit, OnDestroy {
     //   return previousValue + currentValue;
     // }));
 
+    // let arr = [
+    //   {
+    //     payload: {
+    //       doc: {
+    //         id: 1,
+    //         data: 'a'
+    //       }
+    //     }
+    //   },
+    //   {
+    //     payload: {
+    //       doc: {
+    //         id: 2,
+    //         data: 'b'
+    //       }
+    //     }
+    //   },
+    //   {
+    //     payload: {
+    //       doc: {
+    //         id: 3,
+    //         data: 'c'
+    //       }
+    //     }
+    //   }
+    // ];
+    // let new_arr = arr.reduce((previousValue, currentValue) => {
+    //   const id = currentValue.payload.doc.id;
+    //   const data = currentValue.payload.doc.data;
+    //   return {...previousValue, [id]: data};
+    // }, {});
+    //
+    // console.log(arr);
+    // console.log(new_arr);
+
     // const o = of(1, 2, 3)
     //   .pipe(
     //     reduce((previousValue, currentValue) => {
@@ -116,6 +151,12 @@ export class UserComponent implements OnInit, OnDestroy {
     //     })
     //   );
     // this.subscr = o.subscribe(value => console.log(value));
+
+    const o = timer(0, 200)
+      .pipe(
+        throttleTime(1000)
+      );
+    this.subscr = o.subscribe(value => console.log(value));
   }
 
   onActivate() {
